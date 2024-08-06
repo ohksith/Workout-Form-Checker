@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style xmlns="">
+    #search-results {
+        display: none;
+        position: absolute;
+        z-index: 1000;
+        background-color: white;
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+    #search-results a {
+        display: block;
+        padding: 8px;
+        text-decoration: none;
+        color: black;
+    }
+    #search-results a:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+</head>
+<body>
+<div class="navbar bg-base-100">
+
+    <div class="flex-1">
+        <div class="form-control">
+            <form method="POST" action="{{ url_for('mainboard') }}">
+                {{ search_form.hidden_tag() }}
+                <div class="form-group flex relative">
+                    {{ search_form.search_exercise(class="input input-bordered w-full max-w-xs", id="search_exercise") }}
+                    <button type="submit" class="btn btn-primary ml-2">Search</button>
+                    <div id="search-results" class="rounded-box shadow-md"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="flex-1 flex justify-left">
+        <a href="#" class="btn btn-ghost text-xl">Start</a>
+    </div>
+
+    <div class="flex-none">
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                    <img
+                        alt="Avatar"
+                        src="https://cdn3.emoji.gg/emojis/4601_github.png"
+                    />
+                </div>
+            </div>
+            <ul
+                tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+                <li>
+                    <a href='profile' class="justify-between">
+                        Profile
+                        <span class="badge">New</span>
+                    </a>
+                </li>
+                <li><a>Settings</a></li>
+                <li><a>Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search_exercise');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function () {
+            const query = searchInput.value;
+            if (query.length > 0) {
+                fetch(`/search_exercises?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        searchResults.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(item => {
+                                const resultItem = document.createElement('a');
+                                resultItem.href = item.link;
+                                resultItem.textContent = item.name;
+                                searchResults.appendChild(resultItem);
+                            });
+                            searchResults.style.display = 'block';
+                        } else {
+                            searchResults.style.display = 'none';
+                        }
+                    });
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!searchResults.contains(event.target) && event.target !== searchInput) {
+                searchResults.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+<!-- Mini Dashboard -->
+
+<ul>
+    <div class="container mx-auto mt-2 px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="stat shadow bg-white p-4 rounded-lg">
+                    <div class="stat-figure text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-8 w-8 stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-title text-lg">Workouts Completed</div>
+                    <div class="stat-value text-primary text-5xl">{{ workouts_completed }}</div>
+                    <div class="stat-desc text-sm">{{ efficiency }}% more than last week</div>
+                </div>
+
+                <div class="stat shadow bg-white p-4 rounded-lg">
+                    <div class="stat-figure text-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-8 w-8 stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-title text-lg">Workout Efficiency</div>
+                    <div class="stat-value text-secondary text-3xl">{{ efficiency }}%</div>
+
+
+                </div>
+
+                <div class="stat shadow bg-white p-4 rounded-lg">
+                    <div class="stat-figure text-secondary">
+                        <div class="avatar online">
+                            <div class="w-16 rounded-full">
+                                <img src="https://cdn3.emoji.gg/emojis/4601_github.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-title text-lg">Workouts This Week</div>
+                    <div class="stat-value text-secondary text-3xl">{{ workouts_completed }}/{{ weekly_goal }}</div>
+                    <div class="stat-desc text-sm">{{ workouts_remaining }} more workouts to go!</div>
+                    <progress class="progress progress-accent w-full" value="{{ progress }}" max="100"></progress>
+                </div>
+            </div>
+</ul>
+
+<ul>
+    <div class="container mx-auto mt-5 px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="stat bg-secondary p-8 shadow-lg rounded-lg">
+                <div class="stat-figure text-primary text-lg">
+                    <div class="radial-progress" style="--value:70; --size:6rem; --thickness: 2px;" role="progressbar">
+                        0%
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat bg-primary p-8 shadow-lg rounded-lg">
+                <div class="stat-figure text-secondary"></div>
+                <div class="stat-value text-secondary text-3xl">0 Day!</div>
+                <div class="stat-desc text-lg">You are on a 0 day streak!</div>
+                <div class="stat-desc text-lg">0 workouts in past 30 days</div>
+            </div>
+        </div>
+    </div>
+</ul>
+
+<ul>
+    <div class="container mx-auto mt-5 px-4">
+        <div class="grid grid-cols-1 gap-4">
+            <div class="stat bg-base-200 p-8 shadow-lg rounded-lg">
+                <div class="stat-figure text-secondary">
+                    <div class="flex justify-center mt-2">
+                        <a href="leaderboard" class="btn btn-ghost text-3xl">🏆 Leaderboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ul>
+
+<ul>
+    <div class="container mx-auto mt-5 px-4">
+        <div class="grid grid-cols-1 gap-4">
+            <div class="stat bg-secondary p-8 shadow-lg rounded-lg">
+                <div class="stat-figure text-secondary"></div>
+                <div class="stat-value text-secondary text-3xl">0 Day!</div>
+                <div class="stat-desc text-3xl">Tired of Bench Press? </div>
+                <div class="stat-desc text-lg">Try <a href="">these instead!</a></div>
+            </div>
+        </div>
+    </div>
+</ul>
+
+   {% if first_session %}
+<dialog id="first_time_popup" class="modal">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold">Hello!</h3>
+        <p class="py-4">This seems to be your first time! Let's set up your profile quickly!</p>
+        <div class="modal-action">
+                <button class="btn"><a href="profile">Click here</a></button>
+
+        </div>
+    </div>
+</dialog>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var modal = document.getElementById('first_time_popup');
+        modal.showModal();
+    });
+
+</script>
+
+    {% endif %}
+
+
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search_exercise');
+    const suggestionsBox = document.getElementById('suggestions');
+
+    searchInput.addEventListener('input', function() {
+      const query = searchInput.value;
+      if (query.length > 0) {
+        fetch(`/search_suggestions?query=${query}`)
+          .then(response => response.json())
+          .then(data => {
+            suggestionsBox.innerHTML = '';
+            data.forEach(item => {
+              const suggestionItem = document.createElement('li');
+              suggestionItem.textContent = item;
+              suggestionItem.classList.add('p-2', 'cursor-pointer', 'hover:bg-gray-200');
+              suggestionItem.addEventListener('click', function() {
+                searchInput.value = item;
+                suggestionsBox.classList.add('hidden');
+              });
+              suggestionsBox.appendChild(suggestionItem);
+            });
+            suggestionsBox.classList.remove('hidden');
+          });
+      } else {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('click', function(event) {
+      if (!suggestionsBox.contains(event.target) && event.target !== searchInput) {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+  });
+</script>
+
+
+
+{% endblock %}

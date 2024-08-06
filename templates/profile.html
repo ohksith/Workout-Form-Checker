@@ -1,0 +1,40 @@
+{% extends 'otherbase.html' %}
+{% block content %}
+
+<div class="max-w-lg mx-auto mt-10">
+    <div class="stats bg-primary text-primary-content">
+  <div class="stat">
+    <div class="stat-title">Username</div>
+    <div class="stat-value">{{ username }}</div>
+    <div class="stat-actions">
+      <button class="btn btn-sm btn-success">Change Username</button>
+    </div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-title">Email ID</div>
+    <div class="stat-value">email_here</div>
+    <div class="stat-actions">
+      <button class="btn btn-sm">Change Password</button>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-lg mx-auto mt-10">
+    <div class="stats bg-primary text-primary-content">
+  <div class="stat">
+    <div class="stat-title">Weekly Exercise Goal</div>
+    <div class="stat-value">{{ weekly_goal }}</div>
+    <div class="stat-actions">
+      <button class="btn btn-sm btn-success">+</button>
+        <button class="btn btn-sm btn-success">-</button>
+
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}
+

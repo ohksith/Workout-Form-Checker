@@ -1,0 +1,56 @@
+{% extends 'otherbase.html' %}
+
+{% block content %}
+
+
+    <div class="max-w-6xl mx-auto mt-10">
+<div class="mockup-browser bg-base-300 border">
+  <input
+  type="text"
+  placeholder="Leaderboard"
+  class="input input-bordered w-full max-w-xs"
+  disabled />
+
+  <div class="bg-base-200 flex justify-center px-4 py-16">
+
+     <div class="overflow-x-auto">
+  <table class="table table-zebra">
+    <!-- head -->
+    <thead>
+      <tr>
+          <th><div class="stat-title text-lg">Rank</div></th>
+        <th><div class="stat-title text-lg">Username</div></th>
+        <th><div class="stat-title text-lg">Score</div></th>
+        <th><div class="stat-title text-lg">Favourite exercise</div></th>
+       </tr>
+    </thead>
+    <tbody>
+      <!-- row 1 -->
+      <tr>
+        <th>1</th>
+        <td>test</td>
+        <td>10</td>
+        <td>test</td>
+      </tr>
+      <!-- row 2 -->
+      <tr>
+        <th>2</th>
+        <td>test</td>
+        <td>9</td>
+        <td>test</td>
+      </tr>
+      <!-- row 3 -->
+      <tr>
+        <th>3</th>
+        <td>test</td>
+        <td>8</td>
+        <td>test</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+      </div>
+</div>
+
+{% endblock %}

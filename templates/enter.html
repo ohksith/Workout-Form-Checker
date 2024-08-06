@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto mt-10">
+  <div class="mockup-browser bg-base-300 border">
+    <div class="mockup-browser-toolbar">
+      <div class="input">JimBro: Your AI based workout buddy</div>
+    </div>
+    <div class="bg-base-200 flex justify-center px-4 py-4"><!-- login form below -->
+      <form method="POST" action="{{ url_for('login') }}">
+        {{ login_form.hidden_tag() }}
+        <div class="form-group">
+          {{ login_form.username.label(class="form-label") }}
+          {{ login_form.username(class="input input-bordered input-primary w-full max-w-xs") }}
+        </div>
+        <div class="form-group mt-4">
+          {{ login_form.password.label(class="form-label") }}
+          {{ login_form.password(class="input input-bordered input-primary w-full max-w-xs") }}
+        </div>
+        <div class="form-group mt-6">
+          {{ login_form.submit(class="btn btn-accent") }}
+        </div>
+        <input type="hidden" name="login_submit" value="1">
+          <div class="form-group mt-6">
+          <button class="btn btn-secondary" onclick="my_modal_3.showModal()">Register Instead</button>
+          </div>
+      </form>
+
+      <br>
+
+    <!-- Register Modal -->
+
+<dialog id="my_modal_3" class="modal">
+  <div class="modal-box">
+      <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+        <div class="bg-base-200 flex justify-start px-4 py-4">
+        <form method="POST" action="{{ url_for('login') }}">
+        {{ registration_form.hidden_tag() }}
+        <div class="form-group">
+            <div class="grid justify-items-end>
+          {{ registration_form.username.label(class="form-label") }}
+          {{ registration_form.username(class="input input-bordered w-full max-w-xs") }}
+          </div>
+        </div>
+        <div class="form-group mt-4">
+            <div class="grid justify-items-end>
+          {{ registration_form.email.label(class="form-label") }}
+          {{ registration_form.email(class="input input-bordered w-full max-w-xs") }}
+          </div>
+        </div>
+        <div class="form-group mt-4">
+            <div class="grid justify-items-end>
+          {{ registration_form.password.label(class="form-label") }}
+          {{ registration_form.password(class="input input-bordered w-full max-w-xs") }}
+        </div>
+        </div>
+        <div class="form-group mt-4">
+          {{ registration_form.password2.label(class="form-label") }}
+          {{ registration_form.password2(class="input input-bordered w-full max-w-xs") }}
+        </div>
+        <div class="form-group mt-6">
+          {{ registration_form.submit(class="btn btn-outline btn-primary") }}
+        </div>
+        <input type="hidden" name="register_submit" value="1">
+      </form>
+        </div>
+
+    <div class="modal-action">
+    </div>
+  </div>
+</dialog>
+
+
+
+    </div>
+    <br>
+  </div>
+</div>
+{% endblock %}

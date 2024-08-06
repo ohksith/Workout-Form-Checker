@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lemonade">
+<head>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>...</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+
+    <style>
+
+        #search-results {
+            display: none;
+            position: absolute;
+            z-index: 1000;
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+        #search-results a {
+            display: block;
+            padding: 8px;
+            text-decoration: none;
+            color: black;
+        }
+        #search-results a:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar bg-base-100">
+    <!-- Left side: Search field -->
+    <div class="flex-1">
+        <div class="form-control">
+            <form method="POST" action="{{ url_for('mainboard') }}">
+                {{ search_form.hidden_tag() }}
+                <div class="form-group flex relative">
+                    {{ search_form.search_exercise(class="input input-bordered w-full max-w-xs", id="search_exercise") }}
+                    <button type="submit" class="btn btn-primary ml-2">Search</button>
+                    <div id="search-results" class="rounded-box shadow-md"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Center: Start button -->
+    <div class="flex-1 flex justify-left">
+        <a href="mainboard" class="btn btn-ghost text-xl">Home</a>
+    </div>
+    <!-- Right side: Avatar dropdown -->
+    <div class="flex-none">
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                    <img
+                        alt="Avatar"
+                        src="https://cdn3.emoji.gg/emojis/4601_github.png"
+                    />
+                </div>
+            </div>
+            <ul
+                tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+                <li>
+                   <a href='profile' class="justify-between">
+                        Profile
+                        <span class="badge">New</span>
+                    </a>
+                </li>
+                <li><a>Settings</a></li>
+                <li><a>Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search_exercise');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function () {
+            const query = searchInput.value;
+            if (query.length > 0) {
+                fetch(`/search_exercises?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        searchResults.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(item => {
+                                const resultItem = document.createElement('a');
+                                resultItem.href = item.link;
+                                resultItem.textContent = item.name;
+                                searchResults.appendChild(resultItem);
+                            });
+                            searchResults.style.display = 'block';
+                        } else {
+                            searchResults.style.display = 'none';
+                        }
+                    });
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!searchResults.contains(event.target) && event.target !== searchInput) {
+                searchResults.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
