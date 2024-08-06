@@ -6,9 +6,9 @@
 | Task | Status |
 | ------------- | ------------- |
 | Design: Designing System Architecture, Database Schema, API Schema.|X|
-| Front-End: Build the basic structure using HTML, CSS, and JavaScript.||
-| Back-End: Implement core functionalities with Flask.||
-| Database: Set up PostgreSQL for handling user data.||
+| Front-End: Build the basic structure using HTML, CSS, and JavaScript.|X|
+| Back-End: Implement core functionalities with Flask.|X|
+| Database: Set up PostgreSQL for handling user data.|X|
 | Testing: Initial manual and automated tests on front-end and back-end to ensure basic functionality.||
 
 Milestones: 
@@ -21,7 +21,7 @@ Milestones:
 | Model Training: Train Media Pipe models for joint detection and angle calculation.||
 |Integration: Integrate Media Pipe and OpenCV for real-time video processing.||
 |Feedback Mechanism: Implement logic for analyzing joint angles and providing real-time feedback.||
-|Additional Features: Alternate exercise options and personalized recommendations.||
+|Additional Features: Alternate exercise options and personalized recommendations.|X|
 |Testing: Manual and automated testing of the training and feedback mechanisms.||
 
 Milestones:
