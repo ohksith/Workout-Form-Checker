@@ -1,3 +1,6 @@
+# Code being updated only to Universitie's internal repo till graduation.
+# This is old code.
+
 # Planned Sprints
 ![image J9K5P2](https://github.com/ohksith/Workout-Form-Checker/assets/79146902/feb9f2e9-ee17-48b4-86ce-b5dee448a653)
 
