@@ -1,4 +1,4 @@
-# Code being updated only to Universitie's internal repo till graduation.
+# Code being updated only to Universities' internal repo till graduation.
 # This is old code.
 
 # Planned Sprints
